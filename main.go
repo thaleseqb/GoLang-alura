@@ -1,18 +1,14 @@
 package main
 
 import (
+	"pizzaria/models"
+
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
-type Pizza struct {
-	ID    uuid.UUID `json:"id"`
-	Name  string    `json:"name"`
-	Price float64   `json:"price"`
-}
-
 func find_all(c *gin.Context) {
-	var pizzas = []Pizza{
+	var pizzas = []models.Pizza{
 		{ID: uuid.New(), Name: "toscana", Price: 49.9},
 		{ID: uuid.New(), Name: "marguerita", Price: 30},
 		{ID: uuid.New(), Name: "quatro queijos", Price: 45},
