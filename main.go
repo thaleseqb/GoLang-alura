@@ -1,24 +1,33 @@
 package main
 
 import (
-	"fmt"
-
+	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
 type Pizza struct {
-	id    uuid.UUID
-	name  string
-	price float64
+	ID    uuid.UUID `json:"id"`
+	Name  string    `json:"name"`
+	Price float64   `json:"price"`
+}
+
+func find_all(c *gin.Context) {
+	var pizzas = []Pizza{
+		{ID: uuid.New(), Name: "toscana", Price: 49.9},
+		{ID: uuid.New(), Name: "marguerita", Price: 30},
+		{ID: uuid.New(), Name: "quatro queijos", Price: 45},
+	}
+	c.JSON(200, gin.H{
+		"pizzas": pizzas,
+	})
+}
+
+func pizzas_router(router *gin.Engine, path string) {
+	router.GET(path, find_all)
 }
 
 func main() {
-	var pizzas = []Pizza{
-		{id: uuid.New(), name: "toscana", price: 49.9},
-		{id: uuid.New(), name: "marguerita", price: 30},
-		{id: uuid.New(), name: "quatro queijos", price: 45},
-	}
-	for _, value := range pizzas {
-		fmt.Println("Pizza cujo nome é", value.name)
-	}
+	router := gin.Default()
+	pizzas_router(router, "/pizzas")
+	router.Run()
 }
